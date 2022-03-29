@@ -19,7 +19,7 @@ app.use(cookieParser());
 connection.connect(err => {
     if(err) throw err;
     console.log("Connection with MySQL established.");
-});
+}); 
 
 app.get('/api/:table/:id', (req,res) => { //request used to select one element in a specified table
     const { table, id } = req.params;
@@ -56,6 +56,7 @@ app.post('/api/:table', (req,res) => { //insert values from http body into a spe
         data = Object.values(data);
         if(data.length != result.length) res.send("Wrong data size");
         insertQuery = `INSERT INTO ${table} (${result.join(',')}) VALUES (${"?, ".repeat(data.length).slice(0,-2)})`;
+        console.log(insertQuery);
         connection.query(insertQuery, data, (err, result) => {
             if(err) res.send("Wrong data entered"); 
             res.send(result);

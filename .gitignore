@@ -2,3 +2,4 @@ node_modules/
 .env
 env_variables.php
 package-lock.json
+environment_variables.php
