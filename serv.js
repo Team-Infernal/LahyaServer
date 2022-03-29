@@ -30,10 +30,20 @@ app.get('/api/:table/:id', (req,res) => { //request used to select one element i
     }); 
 });
 
+app.get('/api/:table/email/:email', (req,res) => { //request used to select one element in a specified table
+    const { table, email } = req.params;
+    console.log(email);
+    console.log("ok");
+    const selectOneQuery = `SELECT * FROM ${table} WHERE fogin=?`;
+    connection.query(selectOneQuery, email , (err, result) => {
+        if(err) throw err;
+        res.send(result);
+    }); 
+});
+
 app.get('/api/:table', (req,res) => { //request used to select all elements in a specified table
     const table = req.params.table;
     const selectAllQuery = `SELECT * FROM ${table};`;
-    console.log(selectAllQuery)
     connection.query(selectAllQuery, (err, result) => {
         if(err) throw err;
         res.send(result); 
