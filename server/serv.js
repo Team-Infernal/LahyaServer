@@ -10,7 +10,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 
-connection.connect(err => {0
+connection.connect(err => {
     if(err) throw err;
     console.log("Connection with MySQL established...");
 });

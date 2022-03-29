@@ -11,7 +11,7 @@
     <title>Document</title>
 </head>
 <body>
-    <form action="http://localhost:3002/api/users" method="post">
+    <form action="login.php" method="post">
             <!-- login=bob&password=boby -->
         <label for="fname">First Name :</label>
         <input type="text" name="first_name" id="fname"><br>
@@ -20,7 +20,7 @@
         <label for="login">Login</label>
         <input type="text" name="login" id="login"><br>
         <label for="password">Password :</label>
-        <input type="text" name="hash" id="password"><br>
+        <input type="password" name="hash" id="password"><br>
         <label for="school">School :</label>
         <input type="text" name="school" id="school"><br>
         <label for="class">Class :</label>
@@ -28,7 +28,7 @@
         <label for="id_permission">Role :</label>
         <select name="role" id="bob">
             <?php
-                fillSelectWith("role");
+                fillSelectWith("role", "name");
             ?>
         </select>
         <input type="hidden" name="id_permission_has3" value="2">
