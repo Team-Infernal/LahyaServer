@@ -1,6 +1,6 @@
 {
-	"name": "web_project",
-	"version": "1.0.0",
+	"name": "lahya-server",
+	"version": "0.0.5",
 	"description": "",
 	"main": "./serv.js",
 	"scripts": {

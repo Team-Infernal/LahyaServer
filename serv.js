@@ -7,6 +7,8 @@ import cors from "cors"
 const app = express();
 const port = 3002;
 
+
+/* properties that are used by the server */
 app.use(cors({ credentials: true }));
 app.use(morgan('tiny'));
 app.use(bodyParser.json()); 
@@ -21,7 +23,6 @@ connection.connect(err => {
 
 app.get('/api/:table/:id', (req,res) => { //request used to select one element in a specified table
     const { table, id } = req.params;
-    console.log(table); 
     const selectOneQuery = `SELECT * FROM ${table} WHERE id=?`;
     connection.query(selectOneQuery, id , (err, result) => {
         if(err) throw err;
@@ -55,13 +56,12 @@ app.post('/api/:table', (req,res) => { //insert values from http body into a spe
         data = Object.values(data);
         if(data.length != result.length) res.send("Wrong data size");
         insertQuery = `INSERT INTO ${table} (${result.join(',')}) VALUES (${"?, ".repeat(data.length).slice(0,-2)})`;
-        console.log(insertQuery);
         connection.query(insertQuery, data, (err, result) => {
             if(err) res.send("Wrong data entered"); 
             res.send(result);
         });
     });
-});
+}); 
 
 app.put('/api/:table/:id', (req, res) => { //update
     let { table, id } = req.params;
@@ -82,7 +82,6 @@ app.put('/api/:table/:id', (req, res) => { //update
         let tempString = ""
         for(let i = 0; i < data.length-1; i++) {
             tempString += `${result[i]} = ?, `
-            console.log(i)   
         }
         updateQuery = `UPDATE ${table} SET ${tempString.slice(0,-2)} WHERE id = ?`;
         connection.query(updateQuery, data, (err, result) => {
