@@ -21,11 +21,11 @@ curl_setopt($curl, CURLOPT_URL, $url);
 curl_setopt($curl, CURLOPT_POST, true);
 curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 
-
-
 $data = "first_name=$first_name&last_name=$last_name&login=$login&hash=$pwd&school=$school&class=$class&id_permission_has=1&id_permission_has3=1";
 
 curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
 $resp = curl_exec($curl);
 curl_close($curl);
 var_dump($resp);
+
+header("Location: http://localhost:3000/login");
