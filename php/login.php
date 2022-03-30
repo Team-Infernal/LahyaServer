@@ -1,6 +1,11 @@
 <?php
 include_once("environment_variables.php");
 
+if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
+	header("location: http://localhost:3000/");
+	exit;
+}
+
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 	$login = $_POST["email"];
@@ -17,13 +22,19 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 		echo "Error: " . $e->getMessage();
 	}
 
-	$stmt = $connection->prepare("SELECT hash FROM users WHERE login = :login");
+	$stmt = $connection->prepare("SELECT id, login, hash FROM users WHERE login = :login");
 	$stmt->execute([
 		"login" => $login,
 	]);
-	// var_dump($stmt->fetchAll());
-	var_dump($stmt->fetch()["hash"]);
-	var_dump(password_verify("qwerty", password_hash("qwerty", PASSWORD_DEFAULT)));
+
+	if (password_verify($pwd, $stmt->fetch()["hash"])) {
+
+		setcookie("loggedin", $stmt->fetch()["login"].",".md5($stmt->fetch()["login"]."boby"), time() + (86400 * 30), "/");
+		header("Location: http://localhost:3000/account");
+
+	} else {
+		echo "Wrong credentials";
+	}
 }
 
 /*
@@ -47,3 +58,4 @@ curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
 $resp = curl_exec($curl);
 curl_close($curl);
 var_dump($resp);
+*/
