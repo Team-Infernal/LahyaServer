@@ -22,16 +22,15 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 		echo "Error: " . $e->getMessage();
 	}
 
-	$stmt = $connection->prepare("SELECT id, login, hash FROM users WHERE login = :login");
+	$stmt = $connection->prepare("SELECT users.id, users.login, users.hash, role.name FROM users INNER JOIN role ON users.id_permission = role.id WHERE login = :login");
 	$stmt->execute([
 		"login" => $login,
 	]);
 
-	if (password_verify($pwd, $stmt->fetch()["hash"])) {
-
-		setcookie("loggedin", $stmt->fetch()["login"].",".md5($stmt->fetch()["login"]."boby"), time() + (86400 * 30), "/");
+	$temp = $stmt->fetch();
+	if (password_verify($pwd, $temp["hash"])) {
+		setcookie("loggedin", $temp["name"] . "-" . $temp["id"], time() + (86400 * 30), "/");
 		header("Location: http://localhost:3000/account");
-
 	} else {
 		echo "Wrong credentials";
 	}
