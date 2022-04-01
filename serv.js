@@ -16,7 +16,7 @@ const tables = [
     "company",
     "grades_by_students",
     "internship",
-    "permission",
+    "permission", 
     "role",
     "users",
 ]
@@ -132,7 +132,7 @@ app.put('/api/:table/:id', (req, res) => { //update
     });
     const columnsQuery = `DESCRIBE ${table}`;
     connection.query(columnsQuery, (err, result) => {
-        if (err) res.status(400).send({});
+        if (err) res.status(400).send({err});
         result.shift();
         result = result.map(val => val.Field);
         data = Object.values(data);
@@ -144,7 +144,7 @@ app.put('/api/:table/:id', (req, res) => { //update
         }
         const updateQuery = `UPDATE ${table} SET ${tempString.slice(0,-2)} WHERE id = ?`;
         connection.query(updateQuery, data, (err, result) => {
-            if (err) badRequest(res);
+            if (err) res.send(err);
             else res.send(result);
         });
     });
