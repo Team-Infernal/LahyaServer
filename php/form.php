@@ -45,19 +45,18 @@ function delete2($url)
 }
 
 //Student and Tutor
-if (isset($_POST['role']) . isset($_POST['type']) . isset($_POST['first_name']) . isset($_POST['last_name']) . isset($_POST['email']) . isset($_POST['school']) . isset($_POST['class'])) {
-
-	$role = $_POST['role'];
-	$type = $_POST['type'];
-	$first_name = $_POST['first_name'];
-	$last_name = $_POST['last_name'];
-	$email = $_POST['email'];
-	$school = $_POST['school'];
-	$class = $_POST['class'];
-	$hash = $_POST['password'];
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 	if ($type === "add") {
 
+		$role = $_POST['role'];
+		$type = $_POST['type'];
+		$first_name = $_POST['first_name'];
+		$last_name = $_POST['last_name'];
+		$email = $_POST['email'];
+		$school = $_POST['school'];
+		$class = $_POST['class'];
+		$hash = $_POST['password'];
 		$permission = $role === "student" ? 1 : ($role === "tutor" ? 2 : null);
 		$url = "http://localhost:3002/api/users";
 		$data = "first_name=$first_name&last_name=$last_name&login=$email&hash=$hash&school=$school&class=$class&id_permission_has=$permission&id_permission_has3=1";
@@ -65,6 +64,14 @@ if (isset($_POST['role']) . isset($_POST['type']) . isset($_POST['first_name']) 
 
 	} else if ($type === "edit") {
 
+		$role = $_POST['role'];
+		$type = $_POST['type'];
+		$first_name = $_POST['first_name'];
+		$last_name = $_POST['last_name'];
+		$email = $_POST['email'];
+		$school = $_POST['school'];
+		$class = $_POST['class'];
+		$hash = $_POST['password'];
 		$id = $_POST["id"];
 		$permission = $role === "student" ? 1 : ($role === "tutor" ? 2 : null);
 		$url = "http://localhost:3002/api/users/$id";
