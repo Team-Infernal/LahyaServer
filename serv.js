@@ -1,10 +1,10 @@
-import morgan from "morgan";
-import express from "express";
-import bodyParser from "body-parser";
-import cookieParser from "cookie-parser";
-import cors from "cors";
+const morgan = require("morgan");
+const express = require("express");
+const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
+const cors = require("cors");
 
-import connection from "./sql_connection/connection.js";
+const connection = require("./sql_connection/connection.js");
 
 const app = express();
 const port = 3002;
@@ -76,9 +76,9 @@ app.get('/api/:table', (req, res) => { //request used to select all elements in 
 });    
 
 app.get('/api/users/:id/wishlists', (req,res) => {
-    console.log("bob")
+    console.log("bob") 
     const id = req.params.id;
-    const selectWishlistFromId = `SELECT * FROM wishlists as w INNER JOIN internship as i ON w.id_internship = i.id WHERE i.id = ?`;
+    const selectWishlistFromId = `SELECT * FROM wishlists as w INNER JOIN internship as i ON w.id_internship = i.id WHERE w.id = ?`;
     connection.query(selectWishlistFromId, id, (err, result) => {
         if(err) res.status(404).send({err});
         res.send(result);    
